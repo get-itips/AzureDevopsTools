@@ -1,3 +1,7 @@
+#Source documentation
+#https://docs.microsoft.com/en-us/rest/api/azure/devops/?view=azure-devops-rest-5.0
+#https://docs.microsoft.com/en-us/azure/devops/integrate/previous-apis/overview?view=azure-devops-2019&viewFallbackFrom=vsts
+#https://docs.microsoft.com/en-us/azure/devops/integrate/previous-apis/tfs/projects?view=azure-devops-2019
 $csvpath= "output.csv"
 $fqdn="tfs"
 $collectionName="collection"
