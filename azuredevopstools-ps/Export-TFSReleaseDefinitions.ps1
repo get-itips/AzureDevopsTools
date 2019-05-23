@@ -1,17 +1,41 @@
+#Export-TFSReleaseDefinition.ps1
+#Todo: Make it to run on other TFS versions than 2017
+#Author: Andres Gorzelany
+#Github handle: get-itips
 #Source documentation
 #https://docs.microsoft.com/en-us/rest/api/azure/devops/?view=azure-devops-rest-5.0
 #https://docs.microsoft.com/en-us/azure/devops/integrate/previous-apis/overview?view=azure-devops-2019&viewFallbackFrom=vsts
 #https://docs.microsoft.com/en-us/azure/devops/integrate/previous-apis/tfs/projects?view=azure-devops-2019
-$csvpath= "output.csv"
-$fqdn="tfs"
-$collectionName="collection"
+
+param(
+    [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]
+    [string]$CsvPath="",
+
+    [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]
+    [string]$Fqdn="",
+
+    [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]
+    [string]$CollectionName=""
+)
+#$csvpath= "output.csv"
+#$fqdn="tfs"
+#$collectionName="collection"
+
+Write-Host "###########################" -ForegroundColor Blue
+Write-Host "Export-TFSReleaseDefinition.ps1 version 0.2" -ForegroundColor White
+Write-Host "Runtime values set by user:" -ForegroundColor White
+Write-Host "###########################" -ForegroundColor Blue
+Write-Host "CSV will be saved to " $CsvPath -ForegroundColor Blue
+$tfsUrl="http://$fqdn/$collectionName"
+Write-Host "TFS Url will be " $tfsUrl -ForegroundColor Blue
+read-host
 
 $credential=Get-Credential
 $csv = "Project;ReleaseDefinition`r`n"
 
 $WebSession = New-Object -TypeName Microsoft.PowerShell.Commands.WebRequestSession -Property @{Credentials=($credential)}
 
-$uriProjects="http://$fqdn/$collectionName/_apis/projects?api-version=1.0"
+$uriProjects="$tfsUrl/_apis/projects?api-version=1.0"
 
 $responseProjects=Invoke-RestMethod -WebSession $websession -Method GET -Uri $uriProjects
 
